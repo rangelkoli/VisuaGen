@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { createClient } from '@supabase/supabase-js';
 import { User, Session } from '@supabase/supabase-js'
 
 export interface AuthResponse {
@@ -9,27 +9,55 @@ export interface AuthResponse {
   error: Error | null;
 }
 
-export async function signUp(email: string, password: string): Promise<AuthResponse> {
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Regular email/password sign in
+export const signIn = async (email: string, password: string): Promise<AuthResponse> => {
   try {
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
     if (error) throw error;
     return { data, error: null };
   } catch (err) {
     return { data: null, error: err as Error };
   }
-}
+};
 
-export async function signIn(email: string, password: string): Promise<AuthResponse> {
+// Google sign in
+export const signInWithGoogle = async () => {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+
+
+  });
+  
+  return { data, error };
+};
+
+// Sign up with email and password
+export const signUp = async (email: string, password: string): Promise<AuthResponse> => {
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      }
+    });
     if (error) throw error;
     return { data, error: null };
   } catch (err) {
     return { data: null, error: err as Error };
   }
-}
+};
 
-export async function signOut(): Promise<{ error: Error | null }> {
+// Sign out
+export const signOut = async (): Promise<{ error: Error | null }> => {
   try {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
@@ -37,8 +65,9 @@ export async function signOut(): Promise<{ error: Error | null }> {
   } catch (err) {
     return { error: err as Error };
   }
-}
+};
 
+// Get the currently logged in user
 export const getCurrentUser = async () => {
   try {
     const { data: { session }, error } = await supabase.auth.getSession()
@@ -53,3 +82,15 @@ export const getCurrentUser = async () => {
     }
   }
 }
+
+// Get the current session
+export const getSession = async () => {
+  const { data, error } = await supabase.auth.getSession();
+  return { session: data.session, error };
+};
+
+// Refresh the session if needed
+export const refreshSession = async () => {
+  const { data, error } = await supabase.auth.refreshSession();
+  return { session: data.session, error };
+};

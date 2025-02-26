@@ -34,7 +34,7 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           instances: [{ prompt }],
           parameters: {
-            sampleCount: 1
+            sampleCount: 1,
           }
         })
       }

@@ -49,8 +49,8 @@ const Navbar = () => {
           <div className='hidden md:flex items-center space-x-8'>
             {user ? (
               <>
-                <NavLink href='/dashboard' isScrolled={isScrolled}>
-                  Dashboard
+                <NavLink href='/gallery' isScrolled={isScrolled}>
+                  Gallery
                 </NavLink>
                 <Link href='/generate'>
                   <motion.button

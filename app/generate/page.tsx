@@ -95,11 +95,11 @@ export default function GeneratePage() {
       if (!response.ok) throw new Error(data.error);
 
       // Process the image to remove background
-      const processedImageUrl = await processImage(data.imageUrl);
-      setImage(processedImageUrl);
+      // const processedImageUrl = await processImage(data.imageUrl);
+      setImage(data.imageUrl);
 
       // Save the processed image to Supabase
-      await saveGeneratedImage(user!.id, processedImageUrl, prompt);
+      await saveGeneratedImage(user!.id, data.imageUrl, prompt);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to generate image");
     } finally {
