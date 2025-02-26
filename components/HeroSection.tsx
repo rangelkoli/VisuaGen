@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -18,8 +17,10 @@ export default function HeroSection() {
     setIsSubmitting(true);
     try {
       const res = await supabase.from("waitlist").insert({ email });
+      if (res.error) {
+        throw new Error(res.error.message);
+      }
 
-      if (res.error) throw new Error(res.error.message);
       toast.success("Successfully joined the waitlist!");
       setHasJoined(true);
       setEmail("");
