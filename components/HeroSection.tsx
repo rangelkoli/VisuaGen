@@ -25,14 +25,14 @@ export default function HeroSection() {
       setHasJoined(true);
       setEmail("");
     } catch (_error) {
-      toast.error("Failed to join waitlist. Please try again.");
+      toast.error("Failed to join waitlist. Please try again." + _error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className='min-h-screen flex flex-col-reverse md:flex-row items-center justify-center px-4 md:px-8 py-8 md:py-16'>
+    <div className='min-h-screen flex flex-col md:flex-row items-center justify-center px-4 md:px-8 py-8 md:py-16'>
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -52,12 +52,12 @@ export default function HeroSection() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className='p-4 bg-green-50 dark:bg-green-900/20 rounded-lg text-green-700 dark:text-green-300 mb-8'
+            className='p-4 bg-green-50 dark:bg-green-900/20 rounded-lg text-green-700 dark:text-green-300 mb-8 order-1'
           >
             <h3 className='font-semibold mb-2'>🎉 You&apos;re on the list!</h3>
             <p>
-              Thank you for joining our waitlist. We'll notify you via email
-              when VisuaGen launches.
+              Thank you for joining our waitlist. We&apos;ll notify you via
+              email when VisuaGen launches.
             </p>
           </motion.div>
         ) : (
@@ -115,7 +115,7 @@ export default function HeroSection() {
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
-        className='w-full md:w-1/2 mb-8 md:mb-0 bg-transparent justify-center flex'
+        className='w-full md:w-1/2 mb-8 md:mb-0 bg-transparent justify-center flex order-2 md:order-1'
       >
         <Image
           src={LandingHeroImage}

@@ -38,8 +38,8 @@ export default function Login() {
       } else {
         toast.error("No user found with these credentials");
       }
-    } catch (_) {
-      toast.error("An unexpected error occurred");
+    } catch (error) {
+      toast.error("An unexpected error occurred" + error);
     } finally {
       setIsLoading(false);
     }
