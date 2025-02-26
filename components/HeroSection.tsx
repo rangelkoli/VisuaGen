@@ -6,6 +6,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import LandingHeroImage from "@/public/LandingHeroImage.png";
 import { supabase } from "@/lib/supabase";
+import { FaArrowRight } from "react-icons/fa";
 
 export default function HeroSection() {
   const [email, setEmail] = useState("");
@@ -75,9 +76,19 @@ export default function HeroSection() {
                 whileTap={{ scale: 0.98 }}
                 type='submit'
                 disabled={isSubmitting}
-                className='px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50'
+                className='group px-6 py-3 bg-violet-500 text-white rounded-lg hover:bg-violet-700 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2'
               >
-                {isSubmitting ? "Joining..." : "Join Waitlist"}
+                <span>{isSubmitting ? "Joining..." : "Join Waitlist"}</span>
+                <motion.div
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 1.5,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <FaArrowRight className='text-lg group-hover:translate-x-1 transition-transform' />
+                </motion.div>
               </motion.button>
             </div>
           </form>

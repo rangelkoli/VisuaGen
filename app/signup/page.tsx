@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import AuthForm from "@/components/AuthForm";
