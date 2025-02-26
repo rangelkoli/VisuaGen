@@ -36,14 +36,14 @@ export default function HeroSection() {
   // If loading, you might want to show a loading state
 
   return (
-    <div className='min-h-screen flex flex-col md:flex-row items-center justify-center px-4 md:px-8 py-8 md:py-16'>
+    <div className='min-h-screen flex flex-col md:flex-row items-center justify-center px-4 md:px-8 py-8 md:py-16 bg-white dark:bg-gray-900 transition-colors duration-300'>
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
         className='w-full md:w-1/2 space-y-4 text-center md:text-left max-w-xl'
       >
-        <h1 className='text-4xl md:text-6xl font-bold leading-tight mb-6'>
+        <h1 className='text-4xl md:text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-white'>
           Transform Your Ideas Into Beautiful Visualizations
         </h1>
         <p className='text-xl text-gray-600 dark:text-gray-300 mb-8'>
@@ -73,14 +73,14 @@ export default function HeroSection() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className='flex-1 px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all'
+                className='flex-1 px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400'
               />
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type='submit'
                 disabled={isSubmitting}
-                className='group px-6 py-3 bg-violet-500 text-white rounded-lg hover:bg-violet-700 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2'
+                className='group px-6 py-3 bg-violet-500 hover:bg-violet-600 dark:bg-violet-600 dark:hover:bg-violet-700 text-white rounded-lg transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2'
               >
                 <span>{isSubmitting ? "Joining..." : "Join Waitlist"}</span>
                 <motion.div
@@ -107,7 +107,7 @@ export default function HeroSection() {
           </Link>
           <Link
             href='/login'
-            className='border border-gray-300 px-8 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'
+            className='border border-gray-300 dark:border-gray-700 px-8 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-gray-900 dark:text-white'
           >
             Learn More
           </Link>
@@ -123,7 +123,7 @@ export default function HeroSection() {
         <Image
           src={LandingHeroImage}
           alt='AI Visualization'
-          className='rounded-lg  bg-transparent'
+          className='rounded-lg bg-transparent dark:opacity-90'
         />
       </motion.div>
     </div>

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase"; // use supabase from lib
 import { UserCircle } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,10 +23,10 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-all duration-300 bg-white dark:bg-gray-900 ${
         isScrolled
-          ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-md"
-          : "bg-transparent"
+          ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-md dark:shadow-gray-800/30"
+          : ""
       }`}
     >
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
@@ -35,8 +36,10 @@ const Navbar = () => {
             <motion.span
               whileHover={{ scale: 1.05 }}
               className={`text-xl font-bold ${
-                isScrolled ? "text-gray-900 dark:text-white" : "text-black"
-              }`}
+                isScrolled
+                  ? "text-gray-900 dark:text-white"
+                  : "text-black dark:text-white"
+              } transition-colors duration-200`}
             >
               VisuaGen
             </motion.span>
@@ -53,7 +56,7 @@ const Navbar = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className='px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors'
+                    className='px-4 py-2 rounded-lg bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors'
                   >
                     Generate
                   </motion.button>
@@ -70,7 +73,7 @@ const Navbar = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className='px-4 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors'
+                  className='px-4 py-2 rounded-full bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 transition-colors'
                   onClick={() => supabase.auth.signOut()}
                 >
                   Sign Out
@@ -85,8 +88,8 @@ const Navbar = () => {
                     className={`px-4 py-2 rounded-full ${
                       isScrolled
                         ? "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800"
-                        : "text-white hover:bg-white/10"
-                    }`}
+                        : "text-black dark:text-white hover:bg-gray-100/10 dark:hover:bg-gray-800/20"
+                    } transition-colors duration-200`}
                   >
                     Login
                   </motion.button>
@@ -95,38 +98,48 @@ const Navbar = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className='px-4 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors'
+                    className='px-4 py-2 rounded-full bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors'
                   >
                     Sign Up
                   </motion.button>
                 </Link>
               </>
             )}
+            <ThemeToggle />
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className='md:hidden p-2 rounded-md'
-          >
-            <div className='space-y-2'>
-              <span
-                className={`block w-6 h-0.5 ${
-                  isScrolled ? "bg-gray-900 dark:bg-white" : "bg-white"
-                }`}
-              />
-              <span
-                className={`block w-6 h-0.5 ${
-                  isScrolled ? "bg-gray-900 dark:bg-white" : "bg-white"
-                }`}
-              />
-              <span
-                className={`block w-6 h-0.5 ${
-                  isScrolled ? "bg-gray-900 dark:bg-white" : "bg-white"
-                }`}
-              />
-            </div>
-          </button>
+          <div className='md:hidden flex items-center gap-2'>
+            <ThemeToggle />
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className='p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors'
+            >
+              <div className='space-y-2'>
+                <span
+                  className={`block w-6 h-0.5 ${
+                    isScrolled
+                      ? "bg-gray-900 dark:bg-white"
+                      : "bg-black dark:bg-white"
+                  } transition-colors duration-200`}
+                />
+                <span
+                  className={`block w-6 h-0.5 ${
+                    isScrolled
+                      ? "bg-gray-900 dark:bg-white"
+                      : "bg-black dark:bg-white"
+                  } transition-colors duration-200`}
+                />
+                <span
+                  className={`block w-6 h-0.5 ${
+                    isScrolled
+                      ? "bg-gray-900 dark:bg-white"
+                      : "bg-black dark:bg-white"
+                  } transition-colors duration-200`}
+                />
+              </div>
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -134,12 +147,12 @@ const Navbar = () => {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className='fixed inset-0 z-40 md:hidden bg-white/95 dark:bg-gray-900/95'
+            className='fixed inset-0 z-40 md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm'
           >
             <div className='flex justify-end p-4'>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className='p-2'
+                className='p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors'
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -188,14 +201,17 @@ const Navbar = () => {
                     href='/profile'
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <UserCircle className='w-6 h-6 text-gray-600 dark:text-gray-300' />
+                    <div className='flex items-center gap-2'>
+                      <UserCircle className='w-6 h-6 text-gray-600 dark:text-gray-300' />
+                      <span>Profile</span>
+                    </div>
                   </MobileNavLink>
                   <button
                     onClick={() => {
                       supabase.auth.signOut();
                       setIsMobileMenuOpen(false);
                     }}
-                    className='text-left px-4 py-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md'
+                    className='text-left px-4 py-2 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors'
                   >
                     Sign Out
                   </button>
@@ -205,14 +221,14 @@ const Navbar = () => {
                   <Link
                     href='/login'
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className='px-4 py-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md'
+                    className='px-4 py-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors'
                   >
                     Login
                   </Link>
                   <Link
                     href='/signup'
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className='px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md'
+                    className='px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 dark:hover:bg-blue-600 rounded-md transition-colors'
                   >
                     Sign Up
                   </Link>
@@ -239,8 +255,10 @@ const NavLink = ({
     <motion.span
       whileHover={{ scale: 1.05 }}
       className={`cursor-pointer ${
-        isScrolled ? "text-gray-900 dark:text-white" : "text-white"
-      } hover:text-blue-500 transition-colors`}
+        isScrolled
+          ? "text-gray-900 dark:text-white"
+          : "text-black dark:text-white"
+      } hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200`}
     >
       {children}
     </motion.span>
@@ -259,7 +277,7 @@ const MobileNavLink = ({
   <Link
     href={href}
     onClick={onClick}
-    className='px-4 py-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md'
+    className='px-4 py-2 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors w-full text-center'
   >
     {children}
   </Link>

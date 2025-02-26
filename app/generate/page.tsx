@@ -18,6 +18,27 @@ export default function GeneratePage() {
   const [error, setError] = useState("");
   const [downloading, setDownloading] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
+
+  const themes = [
+    { name: "Vibrant", color: "bg-gradient-to-r from-pink-500 to-orange-400" },
+    { name: "Minimal", color: "bg-gradient-to-r from-gray-200 to-gray-400" },
+    { name: "Nature", color: "bg-gradient-to-r from-green-400 to-emerald-500" },
+    { name: "Ocean", color: "bg-gradient-to-r from-blue-400 to-cyan-500" },
+    { name: "Sunset", color: "bg-gradient-to-r from-orange-500 to-red-600" },
+    { name: "Neon", color: "bg-gradient-to-r from-purple-600 to-pink-400" },
+  ];
+
+  const handleThemeSelect = (theme: string) => {
+    setSelectedTheme(theme);
+    // Update prompt based on selected theme
+    const themePrefix = theme ? `${theme} themed ` : "";
+    const basePrompt = prompt.replace(
+      /^(Vibrant|Minimal|Nature|Ocean|Sunset|Neon) themed /,
+      ""
+    );
+    setPrompt(`${themePrefix}${basePrompt}`);
+  };
 
   const processImage = async (imageUrl: string): Promise<string> => {
     setProcessing(true);
@@ -127,6 +148,43 @@ export default function GeneratePage() {
                        transition-all duration-200 min-h-[120px]'
                 required
               />
+            </div>
+
+            <div className='mb-4'>
+              <p className='text-sm text-gray-600 dark:text-gray-300 mb-2'>
+                Select a theme:
+              </p>
+              <div className='flex flex-wrap gap-2'>
+                {themes.map((theme) => (
+                  <motion.button
+                    key={theme.name}
+                    type='button'
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleThemeSelect(theme.name)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+                      ${theme.color} ${
+                      selectedTheme === theme.name
+                        ? "ring-2 ring-blue-500 ring-offset-2 dark:ring-offset-gray-900 text-white"
+                        : "text-white hover:shadow-md"
+                    }`}
+                  >
+                    {theme.name}
+                  </motion.button>
+                ))}
+                {selectedTheme && (
+                  <motion.button
+                    type='button'
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleThemeSelect("")}
+                    className='px-4 py-2 rounded-full text-sm font-medium transition-all bg-gray-200 
+                      dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:shadow-md'
+                  >
+                    Clear
+                  </motion.button>
+                )}
+              </div>
             </div>
 
             <motion.button
