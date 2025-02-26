@@ -1,9 +1,11 @@
 "use client";
+
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase"; // use supabase from lib
+import { UserCircle } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,7 +22,7 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed w-full z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-md"
           : "bg-transparent"
@@ -33,7 +35,7 @@ const Navbar = () => {
             <motion.span
               whileHover={{ scale: 1.05 }}
               className={`text-xl font-bold ${
-                isScrolled ? "text-gray-900 dark:text-white" : "text-white"
+                isScrolled ? "text-gray-900 dark:text-white" : "text-black"
               }`}
             >
               VisuaGen
@@ -42,17 +44,29 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className='hidden md:flex items-center space-x-8'>
-            <NavLink href='/features' isScrolled={isScrolled}>
-              Features
-            </NavLink>
-            <NavLink href='/pricing' isScrolled={isScrolled}>
-              Pricing
-            </NavLink>
             {user ? (
               <>
                 <NavLink href='/dashboard' isScrolled={isScrolled}>
                   Dashboard
                 </NavLink>
+                <Link href='/generate'>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className='px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors'
+                  >
+                    Generate
+                  </motion.button>
+                </Link>
+                <Link href='/profile'>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className='p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors'
+                  >
+                    <UserCircle className='w-6 h-6 text-gray-600 dark:text-gray-300' />
+                  </motion.button>
+                </Link>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -163,6 +177,18 @@ const Navbar = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Dashboard
+                  </MobileNavLink>
+                  <MobileNavLink
+                    href='/generate'
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Generate
+                  </MobileNavLink>
+                  <MobileNavLink
+                    href='/profile'
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <UserCircle className='w-6 h-6 text-gray-600 dark:text-gray-300' />
                   </MobileNavLink>
                   <button
                     onClick={() => {
