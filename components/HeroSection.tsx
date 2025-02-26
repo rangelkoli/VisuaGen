@@ -6,11 +6,23 @@ import toast from "react-hot-toast";
 import LandingHeroImage from "@/public/LandingHeroImage.png";
 import { supabase } from "@/lib/supabase";
 import { FaArrowRight } from "react-icons/fa";
+import { useTypewriter } from "@/hooks/useTypewriter";
 
 export default function HeroSection() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasJoined, setHasJoined] = useState(false);
+
+  // Define the phrases for the typewriter effect
+  const headingPhrases = [
+    "Transform Your Ideas Into Beautiful Visualizations",
+    "Create Stunning Visual Content With AI",
+    "Turn Concepts Into Eye-Catching Graphics",
+    "Visualize Data In Seconds With AI",
+  ];
+
+  // Use the typewriter hook
+  const currentHeading = useTypewriter(headingPhrases, 70, 40, 1000);
 
   const handleWaitlistSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,9 +55,11 @@ export default function HeroSection() {
         transition={{ duration: 0.5 }}
         className='w-full md:w-1/2 space-y-4 text-center md:text-left max-w-xl'
       >
-        <h1 className='text-4xl md:text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-white'>
-          Transform Your Ideas Into Beautiful Visualizations
+        <h1 className='text-4xl md:text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-white min-h-[3em] md:min-h-[2.5em]'>
+          {currentHeading}
+          <span className='animate-pulse'>|</span>
         </h1>
+
         <p className='text-xl text-gray-600 dark:text-gray-300 mb-8'>
           Create stunning visual content with AI-powered tools. Perfect for
           presentations, social media, and more.
