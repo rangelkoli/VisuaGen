@@ -28,7 +28,7 @@ export default function SignUp() {
       error: (err) => `Sign up failed: ${err.message}`,
     });
 
-    const { error } = await signUpPromise;
+    await signUpPromise;
     setIsLoading(false);
   };
 

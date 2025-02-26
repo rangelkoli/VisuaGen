@@ -24,7 +24,7 @@ export default function HeroSection() {
       toast.success("Successfully joined the waitlist!");
       setHasJoined(true);
       setEmail("");
-    } catch (error) {
+    } catch (_error) {
       toast.error("Failed to join waitlist. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -54,7 +54,7 @@ export default function HeroSection() {
             animate={{ opacity: 1 }}
             className='p-4 bg-green-50 dark:bg-green-900/20 rounded-lg text-green-700 dark:text-green-300 mb-8'
           >
-            <h3 className='font-semibold mb-2'>🎉 You're on the list!</h3>
+            <h3 className='font-semibold mb-2'>🎉 You&apos;re on the list!</h3>
             <p>
               Thank you for joining our waitlist. We'll notify you via email
               when VisuaGen launches.

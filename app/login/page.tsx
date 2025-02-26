@@ -38,7 +38,7 @@ export default function Login() {
       } else {
         toast.error("No user found with these credentials");
       }
-    } catch (err) {
+    } catch (_) {
       toast.error("An unexpected error occurred");
     } finally {
       setIsLoading(false);
@@ -78,7 +78,7 @@ export default function Login() {
           {isLoading ? "Logging in..." : "Login"}
         </motion.button>
         <p className='text-center text-gray-600 dark:text-gray-400 mt-4'>
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href='/signup' className='text-blue-500 hover:underline'>
             Sign up
           </Link>
