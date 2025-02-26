@@ -18,19 +18,32 @@ export default function Login() {
     e.preventDefault();
     setIsLoading(true);
 
-    const loginPromise = signIn(email, password);
+    try {
+      const { data, error } = await signIn(email, password);
 
-    toast.promise(loginPromise, {
-      loading: "Logging in...",
-      success: () => {
+      if (error) {
+        // Handle specific auth errors
+        if (error.message.includes("Invalid login credentials")) {
+          toast.error("Invalid email or password");
+        } else if (error.message.includes("Email not confirmed")) {
+          toast.error("Please verify your email first");
+        } else {
+          toast.error(error.message);
+        }
+        return;
+      }
+
+      if (data?.user) {
+        toast.success("Successfully logged in!");
         router.push("/");
-        return "Successfully logged in!";
-      },
-      error: (err) => `Login failed: ${err.message}`,
-    });
-
-    const { error } = await loginPromise;
-    setIsLoading(false);
+      } else {
+        toast.error("No user found with these credentials");
+      }
+    } catch (err) {
+      toast.error("An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

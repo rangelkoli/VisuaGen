@@ -4,19 +4,23 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import LandingHeroImage from "@/public/LandingHeroImage.png";
+import { supabase } from "@/lib/supabase";
 
 export default function HeroSection() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasJoined, setHasJoined] = useState(false);
 
   const handleWaitlistSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      // TODO: Add your waitlist signup API call here
-      // For now, we'll just simulate a success
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      toast.success("Added to waitlist! We'll notify you soon.");
+      const res = await supabase.from("waitlist").insert({ email });
+
+      if (res.error) throw new Error(res.error.message);
+      toast.success("Successfully joined the waitlist!");
+      setHasJoined(true);
       setEmail("");
     } catch (error) {
       toast.error("Failed to join waitlist. Please try again.");
@@ -31,7 +35,7 @@ export default function HeroSection() {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
-        className='w-full md:w-1/2 space-y-4 text-center md:text-left'
+        className='w-full md:w-1/2 space-y-4 text-center md:text-left max-w-xl'
       >
         <h1 className='text-4xl md:text-6xl font-bold leading-tight mb-6'>
           Transform Your Ideas Into Beautiful Visualizations
@@ -41,31 +45,45 @@ export default function HeroSection() {
           presentations, social media, and more.
         </p>
 
-        {/* Waitlist Form */}
-        <form onSubmit={handleWaitlistSignup} className='mb-8'>
-          <div className='flex flex-col md:flex-row gap-2 max-w-md'>
-            <motion.input
-              whileFocus={{ scale: 1.01 }}
-              type='email'
-              placeholder='Enter your email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className='flex-1 px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all'
-            />
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              type='submit'
-              disabled={isSubmitting}
-              className='px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50'
-            >
-              {isSubmitting ? "Joining..." : "Join Waitlist"}
-            </motion.button>
-          </div>
-        </form>
+        {/* Waitlist Form or Success Message */}
+        {hasJoined ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className='p-4 bg-green-50 dark:bg-green-900/20 rounded-lg text-green-700 dark:text-green-300 mb-8'
+          >
+            <h3 className='font-semibold mb-2'>🎉 You're on the list!</h3>
+            <p>
+              Thank you for joining our waitlist. We'll notify you via email
+              when VisuaGen launches.
+            </p>
+          </motion.div>
+        ) : (
+          <form onSubmit={handleWaitlistSignup} className='mb-8'>
+            <div className='flex flex-col md:flex-row gap-2 max-w-md'>
+              <motion.input
+                whileFocus={{ scale: 1.01 }}
+                type='email'
+                placeholder='Enter your email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className='flex-1 px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all'
+              />
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type='submit'
+                disabled={isSubmitting}
+                className='px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50'
+              >
+                {isSubmitting ? "Joining..." : "Join Waitlist"}
+              </motion.button>
+            </div>
+          </form>
+        )}
 
-        <div className='flex flex-col md:flex-row gap-4'>
+        {/* <div className='flex flex-col md:flex-row gap-4'>
           <Link
             href='/signup'
             className='bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors'
@@ -78,21 +96,19 @@ export default function HeroSection() {
           >
             Learn More
           </Link>
-        </div>
+        </div> */}
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
-        className='w-full md:w-1/2 mb-8 md:mb-0'
+        className='w-full md:w-1/2 mb-8 md:mb-0 bg-transparent justify-center flex'
       >
         <Image
-          src='/hero-image.png'
+          src={LandingHeroImage}
           alt='AI Visualization'
-          width={600}
-          height={400}
-          className='rounded-lg shadow-2xl'
+          className='rounded-lg  bg-transparent'
         />
       </motion.div>
     </div>
