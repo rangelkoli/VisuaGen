@@ -7,7 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { getUserImages } from "@/lib/supabase";
 import { Download } from "lucide-react";
 import { downloadImage } from "@/utils/downloadImage";
-
+import Image from "next/image";
 interface GeneratedImage {
   id: string;
   image_data: string;
@@ -83,11 +83,14 @@ export default function ProfilePage() {
                 className='bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg group'
               >
                 <div className='aspect-square relative'>
-                  <img
+                  <Image
                     src={image.image_data}
                     alt={image.prompt}
-                    className='object-cover w-full h-full'
+                    width={500}
+                    height={500}
+                    className='w-full h-full object-cover'
                   />
+
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
