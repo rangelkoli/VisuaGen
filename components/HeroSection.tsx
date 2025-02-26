@@ -1,13 +1,15 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import LandingHeroImage from "@/public/LandingHeroImage.png";
 import { supabase } from "@/lib/supabase";
 import { FaArrowRight } from "react-icons/fa";
+import { useAuth } from "@/context/AuthContext";
 
 export default function HeroSection() {
+  const { user, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasJoined, setHasJoined] = useState(false);
@@ -16,7 +18,10 @@ export default function HeroSection() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const res = await supabase.from("waitlist").insert({ email });
+      const res = await supabase.from("waitlist").insert({
+        email,
+        user_id: user?.id, // Add user ID if available
+      });
       if (res.error) {
         throw new Error(res.error.message);
       }
@@ -30,6 +35,18 @@ export default function HeroSection() {
       setIsSubmitting(false);
     }
   };
+
+  // If loading, you might want to show a loading state
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // Pre-fill email if user is logged in
+  useEffect(() => {
+    if (user?.email) {
+      setEmail(user.email);
+    }
+  }, [user]);
 
   return (
     <div className='min-h-screen flex flex-col md:flex-row items-center justify-center px-4 md:px-8 py-8 md:py-16'>
