@@ -23,6 +23,8 @@ export default function Login() {
       const { data, error } = await signIn(email, password);
 
       if (error) {
+        // Log the error for debugging
+        console.error("Login error:", error);
         // Handle specific auth errors
         if (error.message.includes("Invalid login credentials")) {
           toast.error("Invalid email or password");

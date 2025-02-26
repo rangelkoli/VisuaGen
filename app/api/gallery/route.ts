@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     const offset = parseInt(searchParams.get('offset') || '0');
 
     // Fetch images from the database with pagination
-    let { data: generated_images, error } = await supabase
+    const { data: generated_images, error } = await supabase
     .from('generated_images')
     .select('*').order('created_at', { ascending: false })
     if (error) {

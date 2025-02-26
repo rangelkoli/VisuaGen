@@ -40,41 +40,41 @@ export default function GeneratePage() {
     setPrompt(`${themePrefix}${basePrompt}`);
   };
 
-  const processImage = async (imageUrl: string): Promise<string> => {
-    setProcessing(true);
-    try {
-      // Convert base64 to blob
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
+  // const processImage = async (imageUrl: string): Promise<string> => {
+  //   setProcessing(true);
+  //   try {
+  //     // Convert base64 to blob
+  //     const response = await fetch(imageUrl);
+  //     const blob = await response.blob();
 
-      // Remove background
-      const processedBlob = await removeBackground(blob);
+  //     // Remove background
+  //     const processedBlob = await removeBackground(blob);
 
-      if (!processedBlob) throw new Error("Failed to remove background");
-      setImage(URL.createObjectURL(processedBlob));
-      setProcessing(false);
-      // Return processed image as base64
-      const processedImageUrl = URL.createObjectURL(processedBlob);
-      const processedResponse = await fetch(processedImageUrl);
-      const processedBlobData = await processedResponse.blob();
-      const reader = new FileReader();
-      reader.readAsDataURL(processedBlobData);
-      return new Promise((resolve, reject) => {
-        reader.onloadend = () => {
-          resolve(reader.result as string);
-        };
-        reader.onerror = (error) => {
-          reject(error);
-        };
-      });
-    } catch (error) {
-      console.error("Error processing image:", error);
-      setError("Failed to process image");
-      throw error;
-    } finally {
-      setProcessing(false);
-    }
-  };
+  //     if (!processedBlob) throw new Error("Failed to remove background");
+  //     setImage(URL.createObjectURL(processedBlob));
+  //     setProcessing(false);
+  //     // Return processed image as base64
+  //     const processedImageUrl = URL.createObjectURL(processedBlob);
+  //     const processedResponse = await fetch(processedImageUrl);
+  //     const processedBlobData = await processedResponse.blob();
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(processedBlobData);
+  //     return new Promise((resolve, reject) => {
+  //       reader.onloadend = () => {
+  //         resolve(reader.result as string);
+  //       };
+  //       reader.onerror = (error) => {
+  //         reject(error);
+  //       };
+  //     });
+  //   } catch (error) {
+  //     console.error("Error processing image:", error);
+  //     setError("Failed to process image");
+  //     throw error;
+  //   } finally {
+  //     setProcessing(false);
+  //   }
+  // };
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
