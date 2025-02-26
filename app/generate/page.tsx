@@ -7,7 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { saveGeneratedImage } from "@/lib/supabase";
 import { Download } from "lucide-react";
 import { downloadImage } from "@/utils/downloadImage";
-import { removeBackground } from "@imgly/background-removal";
+// import { removeBackground } from "@imgly/background-removal";
 import Image from "next/image";
 
 export default function GeneratePage() {
@@ -97,7 +97,7 @@ export default function GeneratePage() {
       // Process the image to remove background
       // const processedImageUrl = await processImage(data.imageUrl);
       setImage(data.imageUrl);
-
+      setProcessing(false);
       // Save the processed image to Supabase
       await saveGeneratedImage(user!.id, data.imageUrl, prompt);
     } catch (err) {

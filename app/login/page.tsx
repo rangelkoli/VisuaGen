@@ -64,6 +64,7 @@ export default function Login() {
         router.push("/");
       }
     } catch (error) {
+      console.error("Google sign-in error:", error);
       toast.error("Failed to sign in with Google");
     } finally {
       setIsGoogleLoading(false);
