@@ -1,15 +1,13 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import LandingHeroImage from "@/public/LandingHeroImage.png";
 import { supabase } from "@/lib/supabase";
 import { FaArrowRight } from "react-icons/fa";
-import { useAuth } from "@/context/AuthContext";
 
 export default function HeroSection() {
-  const { user, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasJoined, setHasJoined] = useState(false);

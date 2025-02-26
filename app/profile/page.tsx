@@ -119,7 +119,7 @@ export default function ProfilePage() {
           {!loading && images.length === 0 && (
             <div className='text-center py-12'>
               <p className='text-gray-600 dark:text-gray-400'>
-                You haven't generated any images yet.
+                You haven&apos;t generated any images yet.
               </p>
             </div>
           )}

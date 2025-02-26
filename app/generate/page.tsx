@@ -8,6 +8,7 @@ import { saveGeneratedImage } from "@/lib/supabase";
 import { Download } from "lucide-react";
 import { downloadImage } from "@/utils/downloadImage";
 import { removeBackground } from "@imgly/background-removal";
+import Image from "next/image";
 
 export default function GeneratePage() {
   const { user } = useAuth();
@@ -191,7 +192,14 @@ export default function GeneratePage() {
               className='mt-8'
             >
               <div className='rounded-lg overflow-hidden shadow-xl relative group'>
-                <img src={image} alt='Generated' className='w-full' />
+                <Image
+                  src={image}
+                  alt='Generated'
+                  width={1024}
+                  height={1024}
+                  className='w-full'
+                  unoptimized // Since we're dealing with dynamically generated images
+                />
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
