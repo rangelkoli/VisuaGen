@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { data } from 'framer-motion/client';
 
 const execAsync = promisify(exec);
 
