@@ -6,7 +6,16 @@ export async function GET(req: NextRequest) {
   // Get the authorization code from the URL
   const requestUrl = new URL(req.url);
   const code = requestUrl.searchParams.get('code');
-  
+  console.log('Authorization Code:', code);
+  // Check if the code is present
+  if (!code) {
+    console.error('Authorization code not found');
+    return
+      NextResponse
+      .json({ error: 'Authorization code not found' }, { status: 400 });
+  }
+  // Check if the code is valid
+
   
   if (code) {
     try {
@@ -20,7 +29,7 @@ export async function GET(req: NextRequest) {
       
       // Extract the access token
       const accessToken = data.session?.access_token;
-      
+      console.log('Access Token:', accessToken);
       if (accessToken) {
         // Store the access token (could store in Supabase or handle as needed)
         // You could store it in a secure cookie or pass it to client via URL parameters if needed
