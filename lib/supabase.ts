@@ -12,7 +12,7 @@ export const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_KEY
 )
 
-export async function saveGeneratedImage(userId: string, imageUrl: string, prompt: string) {
+export async function saveGeneratedImage(userId: string, imageUrl: string, prompt: string, enhancedPrompt: string) {
   try {
     const { data, error } = await supabase
       .from('generated_images')
@@ -22,7 +22,8 @@ export async function saveGeneratedImage(userId: string, imageUrl: string, promp
           image_data: imageUrl,
           prompt: prompt,
           created_at: new Date().toISOString(),
-        }
+          enhanced_prompt: enhancedPrompt,
+        },
       ])
       .select()
 

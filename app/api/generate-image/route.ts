@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import { data } from 'framer-motion/client';
 
 const execAsync = promisify(exec);
 
@@ -50,8 +51,8 @@ export async function POST(request: Request) {
     }
 
     const result = await response.json();
-    console.log('API Response:', result);
-    console.log('API Success Response:', result);
+    console.log('API Response Status:', result.predictions[0]?.prompt);
+
 
     const imageData = result.predictions[0]?.bytesBase64Encoded;
     if (!imageData) {
@@ -59,7 +60,8 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ 
-      imageUrl: `data:image/png;base64,${imageData}` 
+      imageUrl: `data:image/png;base64,${imageData}` ,
+      enhancedPrompt: result.predictions[0]?.prompt,
     });
 
   } catch (error) {

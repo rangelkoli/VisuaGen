@@ -99,7 +99,13 @@ export default function GeneratePage() {
       setImage(data.imageUrl);
       setProcessing(false);
       // Save the processed image to Supabase
-      await saveGeneratedImage(user!.id, data.imageUrl, prompt);
+      console.log("Saving image to Supabase" + data.enhancedPrompt);
+      await saveGeneratedImage(
+        user!.id,
+        data.imageUrl,
+        prompt,
+        data.enhancedPrompt
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to generate image");
     } finally {
