@@ -21,7 +21,7 @@ async function getAccessToken() {
 export async function POST(request: Request) {
   try {
     const { prompt } = await request.json();
-    const accessToken = await getAccessToken();
+    const accessToken = process.env.NEXT_PUBLIC_GCLOUD_AUTH_KEY || await getAccessToken();
     
     const response = await fetch(
       `https://${LOCATION}-aiplatform.googleapis.com/v1/projects/${PROJECT_ID}/locations/${LOCATION}/publishers/google/models/${MODEL_VERSION}:predict`,
